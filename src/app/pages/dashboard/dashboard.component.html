@@ -1,0 +1,53 @@
+<div style="max-width: 800px; margin: 3rem auto; padding: 1rem;">
+  <p-card header="Consulta Central de Deudores BCRA">
+    <p class="m-0 mb-4" style="margin-bottom: 1.5rem; color: #666;">
+      Ingresá el CUIT, CUIL o CDI (11 dígitos sin guiones) para consultar el estado actual, 
+      el historial crediticio y los cheques rechazados.
+    </p>
+
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <input pInputText type="text" placeholder="Ej: 20123456789" [(ngModel)]="identificacion" maxlength="11" style="flex: 1;" />
+      <p-button label="Buscar" icon="pi pi-search" [loading]="cargando" (onClick)="buscarDeudor()"></p-button>
+    </div>
+  </p-card>
+
+  @if (datosDeudor) {
+  <div style="margin-top: 2rem;">
+    
+    <div style="margin-bottom: 2rem;">
+      <h2 style="margin: 0; color: var(--text-color);">{{ datosDeudor.denominacion }}</h2>
+      <p style="margin: 0; color: var(--text-color-secondary);">
+        CUIT/CUIL/CDI: {{ datosDeudor.identificacion }}
+      </p>
+    </div>
+
+    <h3 style="color: var(--text-color);">Deudas Actuales</h3>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+      
+      @for (deuda of deudas; track deuda.entidad) {
+        <p-card [header]="deuda.entidad">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span style="font-size: 1.75rem; font-weight: bold; color: var(--text-color);">
+              {{ (deuda.monto * 1000) | currency:'ARS':'symbol-narrow':'1.0-0' }}
+            </span>
+            
+            <p-tag [severity]="getSeveridadSituacion(deuda.situacion)">
+              Situación {{ deuda.situacion }}
+            </p-tag>  
+          </div>
+
+          <div style="color: var(--text-color-secondary); font-size: 0.9rem;">
+            <p style="margin: 0.25rem 0;">
+              <i class="pi pi-calendar-times" style="margin-right: 0.5rem;"></i>
+              Días de atraso: <strong>{{ deuda.diasAtrasoPago }}</strong>
+            </p>
+          </div>
+        </p-card>
+      }
+      
+    </div>
+  </div>
+}
+</div>
