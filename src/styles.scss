@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+/* Importamos la fuente 'Poppins' desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Le decimos a PrimeNG que use nuestra nueva fuente */
+  --font-family: 'Poppins', sans-serif;
+}
+
+body {
+  /* Se lo aplicamos al body por si algún texto queda suelto */
+  font-family: var(--font-family);
+  margin: 0; 
+  padding: 0;
+  
+  /* Si te gusta el fondo oscuro que tenías en la captura, puedes dejarlo así: */
+  background-color: #121212;
+  color: #e0e0e0;
+}
