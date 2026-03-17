@@ -16,50 +16,55 @@ export class BcraService {
    * Obtiene la situación crediticia actual de un CUIT/CUIL/CDI
    * @param identificacion 11 dígitos sin guiones
    */
+  /*getDeudasActuales(identificacion: string): Observable<any> {
+    return this.http.get(`${this.BASE_URL}/${identificacion}`);
+  }*/
+
   getDeudasActuales(identificacion: string): Observable<any> {
-    // MOCK: Datos de prueba basados en la documentación oficial
-    const datosSimulados = {
+    return of({
       "status": 200,
       "results": {
         "identificacion": identificacion,
-        "denominacion": "USUARIO DE PRUEBA S.A.",
+        "denominacion": "SUJETO DE PRUEBA",
         "periodos": [
           {
-            "periodo": "202407",
+            "periodo": "202601",
             "entidades": [
               {
-                "entidad": "BANCO DE LA NACION ARGENTINA",
-                "situacion": 1,
-                "fechaSit1": "2024-05-30",
-                "monto": 59.0, // Recordar que está en miles (59.0 = $59,000)
-                "diasAtrasoPago": 0
-              },
-              {
                 "entidad": "TARJETA NARANJA S.A.",
-                "situacion": 3,
-                "fechaSit1": null,
-                "monto": 15.5, // 15.5 = $15,500
-                "diasAtrasoPago": 45
+                "situacion": 1,
+                "monto": 1327,
+                "diasAtrasoPago": 0
               }
             ]
           }
         ]
       }
-    };
-
-    // Usamos 'of()' para simular que la API respondió exitosamente
-    return of(datosSimulados); 
-
-    // Cuando el BCRA vuelva a la normalidad, simplemente borras el MOCK 
-    // y descomentas la línea de abajo:
-    // return this.http.get(`${this.BASE_URL}/${identificacion}`);
+    });
   }
 
   /**
    * Obtiene el historial de deudas de los últimos 24 meses
    */
-  getDeudasHistoricas(identificacion: string): Observable<any> {
+  /*getDeudasHistoricas(identificacion: string): Observable<any> {
     return this.http.get(`${this.BASE_URL}/Historicas/${identificacion}`);
+  }*/
+
+  getDeudasHistoricas(identificacion: string): Observable<any> {
+    return of({
+      "status": 200,
+      "results": {
+        "identificacion": identificacion,
+        "denominacion": "SUJETO DE PRUEBA",
+        "periodos": [
+          { "periodo": "202601", "entidades": [{ "entidad": "TARJETA NARANJA S.A.", "situacion": 1, "monto": 1327 }] },
+          { "periodo": "202512", "entidades": [{ "entidad": "TARJETA NARANJA S.A.", "situacion": 1, "monto": 1450 }] },
+          { "periodo": "202511", "entidades": [{ "entidad": "TARJETA NARANJA S.A.", "situacion": 2, "monto": 1800 }] },
+          { "periodo": "202510", "entidades": [{ "entidad": "TARJETA NARANJA S.A.", "situacion": 1, "monto": 950 }] },
+          { "periodo": "202509", "entidades": [{ "entidad": "TARJETA NARANJA S.A.", "situacion": 1, "monto": 500 }] }
+        ]
+      }
+    });
   }
 
   /**
