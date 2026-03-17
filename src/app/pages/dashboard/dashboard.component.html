@@ -7,17 +7,17 @@
 
     <div style="display: flex; gap: 1rem; align-items: center;">
       <input pInputText type="text" placeholder="Ej: 20123456789" [(ngModel)]="identificacion" maxlength="11" style="flex: 1;" />
-      <p-button label="Buscar" icon="pi pi-search" [loading]="cargando" (onClick)="buscarDeudor()"></p-button>
+      <p-button label="Buscar" icon="pi pi-search" [loading]="cargando()" (onClick)="buscarDeudor()"></p-button>
     </div>
   </p-card>
 
-  @if (datosDeudor) {
+  @if (datosDeudor()) {
   <div style="margin-top: 2rem;">
     
     <div style="margin-bottom: 2rem;">
-      <h2 style="margin: 0; color: var(--text-color);">{{ datosDeudor.denominacion }}</h2>
+      <h2 style="margin: 0; color: var(--text-color);">{{ datosDeudor().denominacion }}</h2>
       <p style="margin: 0; color: var(--text-color-secondary);">
-        CUIT/CUIL/CDI: {{ datosDeudor.identificacion }}
+        CUIT/CUIL/CDI: {{ datosDeudor().identificacion }}
       </p>
     </div>
 
@@ -25,7 +25,7 @@
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
       
-      @for (deuda of deudas; track deuda.entidad) {
+      @for (deuda of deudas(); track deuda.entidad) {
         <p-card [header]="deuda.entidad">
           
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
@@ -49,5 +49,16 @@
       
     </div>
   </div>
+
+  @if (chartData()) {
+    <div style="margin-top: 3rem;">
+      <h3 style="color: var(--text-color);">Evolución Últimos 24 Meses</h3>
+      <p-card>
+        <div style="height: 350px;">
+          <p-chart type="line" [data]="chartData()" [options]="chartOptions()"></p-chart>
+        </div>
+      </p-card>
+    </div>
+  }
 }
 </div>
